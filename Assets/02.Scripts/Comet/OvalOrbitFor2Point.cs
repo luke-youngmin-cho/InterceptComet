@@ -45,7 +45,16 @@ public class OvalOrbitFor2Point : MonoBehaviour
     {
         get { return gradientDegree * Mathf.Deg2Rad; }
     }
-
+    public bool parametersOK
+    {
+        get
+        {
+            if (ovalElements.zMinusTransform == null )
+                return false;
+            else
+                return true;
+        }
+    }
     [HideInInspector] public Vector3 centorPos;
     [HideInInspector] public Vector3 xUnit;
     [HideInInspector] public Vector3 yUnit;
@@ -61,6 +70,19 @@ public class OvalOrbitFor2Point : MonoBehaviour
     Vector3 zMinusPos;
     private void Awake()
     {
+        if(ovalElements.zMinusTransform != null)
+        {
+            InitializeUnitVectors();
+        }
+    }
+    public void SetTarget(Transform target)
+    {
+        ovalElements.zMinusTransform = target;
+        InitializeUnitVectors();
+    }
+    private void InitializeUnitVectors()
+    {
+        if (parametersOK == false) return;
         xLength = ovalElements.xLength;
         yLength = ovalElements.yLength;
         zLength = (ovalElements.zPlusTransform.position - ovalElements.zMinusTransform.position).magnitude;
@@ -99,6 +121,11 @@ public class OvalOrbitFor2Point : MonoBehaviour
     
     virtual public Vector3 CalcPos(float t)// 0 <= t <= 2pi
     {
+        if(parametersOK == false )
+        {
+            Destroy(this.gameObject);
+            return Vector3.zero;
+        }
         float xRel = Mathf.Sin(pi) * Mathf.Cos(t) * xLength / 2;
         float yRel = Mathf.Cos(pi) * yLength / 2;
         float zRel = Mathf.Sin(pi) * Mathf.Sin(t) * zLength / 2;

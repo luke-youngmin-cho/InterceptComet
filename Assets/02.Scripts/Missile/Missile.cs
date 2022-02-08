@@ -23,7 +23,7 @@ public class Missile : MonoBehaviour
     public float accel;
     public float accelTime;
     private float accelElapsedTime;
-    public Vector3 dir;
+    [HideInInspector]public Vector3 dir;
     private float speed;
 
     [SerializeField] GameObject missileExplosionEffectWithComet;
@@ -31,18 +31,21 @@ public class Missile : MonoBehaviour
     {
         if(_isLaunched == true)
         {            
-            if (accelElapsedTime < accelTime)
-            {
-                speed += accel * Time.deltaTime;
-            }
-            Vector3 deltaMove = dir*speed* Time.deltaTime;
-            Debug.Log(dir);
-            tr.Translate(deltaMove, Space.World);
-            accelElapsedTime += Time.deltaTime;
+            Accelerate();
+            Move();
         }
     }
-
-    
+    private void Accelerate()
+    {
+        if (accelElapsedTime < accelTime)
+            speed += accel * Time.deltaTime;
+        accelElapsedTime += Time.deltaTime;
+    }
+    private void Move()
+    {
+        Vector3 deltaMove = dir * speed * Time.deltaTime;
+        tr.Translate(deltaMove, Space.World);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == null) return;
