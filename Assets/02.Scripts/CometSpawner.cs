@@ -32,14 +32,12 @@ public class CometSpawner : MonoBehaviour
     }
     private Vector3 CreateRandomPositionInCircleRange(float radiusMin, float radiusMax)
     {
-        float x = Random.Range(radiusMin, radiusMax);
+        float r = Random.Range(radiusMin, radiusMax);
+        float x = Random.Range(-r, r);
         float y = 0;
-        float z = Random.Range(radiusMin, radiusMax);
-
-        bool tmpXSign = Random.Range(0, 2) > 0;
+        float z = Mathf.Sqrt(r * r - x * x);
+        
         bool tmpZSign = Random.Range(0, 2) > 0;
-        if (tmpXSign)
-            x = -x;
         if (tmpZSign)
             z = -z;
         return new Vector3(x, y, z);

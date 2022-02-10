@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2826311582698882116}
   - component: {fileID: 6138808131928988781}
   m_Layer: 13
-  m_Name: Test_Comet
+  m_Name: Test_Comet_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,8 +135,9 @@ MonoBehaviour:
   HPSlider: {fileID: 6796208422652448113}
   HPText: {fileID: 1657477601801850869}
   damage: 100
-  speed: 0.1
+  speed: 0.3
   list_OvalOrbit:
+  - {fileID: 6138808131928988781}
   - {fileID: 2826311582698882116}
   _startAngleDegree: 90
   destroyEffect: {fileID: 100000, guid: 49906357493c11b43bd877f32cfaa575, type: 3}
@@ -166,6 +167,12 @@ MonoBehaviour:
   xLength: 0
   yLength: 0
   zLength: 0
+  xPlusPos: {x: 0, y: 0, z: 0}
+  xMinusPos: {x: 0, y: 0, z: 0}
+  yPlusPos: {x: 0, y: 0, z: 0}
+  yMinusPos: {x: 0, y: 0, z: 0}
+  zPlusPos: {x: 0, y: 0, z: 0}
+  zMinusPos: {x: 0, y: 0, z: 0}
 --- !u!114 &6138808131928988781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,9 +199,13 @@ MonoBehaviour:
   xLength: 0
   yLength: 0
   zLength: 0
-  toleranceX: 5
-  toleranceY: 0
-  toleranceZ: 5
+  xPlusPos: {x: 0, y: 0, z: 0}
+  xMinusPos: {x: 0, y: 0, z: 0}
+  yPlusPos: {x: 0, y: 0, z: 0}
+  yMinusPos: {x: 0, y: 0, z: 0}
+  zPlusPos: {x: 0, y: 0, z: 0}
+  zMinusPos: {x: 0, y: 0, z: 0}
+  tolerance: 5
 --- !u!1 &3410674105849130566
 GameObject:
   m_ObjectHideFlags: 0

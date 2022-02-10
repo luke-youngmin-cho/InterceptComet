@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OvalOrbitFor2Point : MonoBehaviour
 {
-    [SerializeField] private st_OvalElementsFor2Points ovalElements;
+    public st_OvalElementsFor2Points ovalElements;
     [SerializeField] private float _degree;
     private float degree
     {
@@ -62,12 +62,12 @@ public class OvalOrbitFor2Point : MonoBehaviour
     [HideInInspector] public float xLength;
     [HideInInspector] public float yLength;
     [HideInInspector] public float zLength;
-    Vector3 xPlusPos;
-    Vector3 xMinusPos;
-    Vector3 yPlusPos;
-    Vector3 yMinusPos;
-    Vector3 zPlusPos;
-    Vector3 zMinusPos;
+    [HideInInspector] public Vector3 xPlusPos;
+    [HideInInspector] public Vector3 xMinusPos;
+    [HideInInspector] public Vector3 yPlusPos;
+    [HideInInspector] public Vector3 yMinusPos;
+    [HideInInspector] public Vector3 zPlusPos;
+    [HideInInspector] public Vector3 zMinusPos;
     private void Awake()
     {
         if(ovalElements.zMinusTransform != null)
@@ -80,7 +80,7 @@ public class OvalOrbitFor2Point : MonoBehaviour
         ovalElements.zMinusTransform = target;
         InitializeUnitVectors();
     }
-    private void InitializeUnitVectors()
+    virtual public void InitializeUnitVectors()
     {
         if (parametersOK == false) return;
         xLength = ovalElements.xLength;

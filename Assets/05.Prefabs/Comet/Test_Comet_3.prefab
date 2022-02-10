@@ -168,6 +168,12 @@ MonoBehaviour:
   xLength: 0
   yLength: 0
   zLength: 0
+  xPlusPos: {x: 0, y: 0, z: 0}
+  xMinusPos: {x: 0, y: 0, z: 0}
+  yPlusPos: {x: 0, y: 0, z: 0}
+  yMinusPos: {x: 0, y: 0, z: 0}
+  zPlusPos: {x: 0, y: 0, z: 0}
+  zMinusPos: {x: 0, y: 0, z: 0}
 --- !u!114 &6138808131928988781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,9 +200,13 @@ MonoBehaviour:
   xLength: 0
   yLength: 0
   zLength: 0
-  toleranceX: 10
-  toleranceY: 0
-  toleranceZ: 10
+  xPlusPos: {x: 0, y: 0, z: 0}
+  xMinusPos: {x: 0, y: 0, z: 0}
+  yPlusPos: {x: 0, y: 0, z: 0}
+  yMinusPos: {x: 0, y: 0, z: 0}
+  zPlusPos: {x: 0, y: 0, z: 0}
+  zMinusPos: {x: 0, y: 0, z: 0}
+  tolerance: 10
 --- !u!1 &3410674105849130566
 GameObject:
   m_ObjectHideFlags: 0

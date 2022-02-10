@@ -32,7 +32,7 @@ public class Comet : MonoBehaviour
     [SerializeField] Slider HPSlider;
     [SerializeField] Text HPText;
 
-    [SerializeField] int damage;
+    [SerializeField] float damage;
     [SerializeField] float speed;
     [SerializeField] List<OvalOrbitFor2Point> list_OvalOrbit;
     int currentOvalOrbitIndex;
@@ -71,17 +71,22 @@ public class Comet : MonoBehaviour
     Transform tr;
     private void Awake()
     {
+        GameStateManager.instance.OnGameStateChanged += OnGameStateChanged;
         tr = GetComponent<Transform>();
         currentAngle = startAngleRadian;
-        HP = HPinit;
     }
     private void Start()
     {
         orbitMoveFSM = e_OrbitMoveFSM.CHECK_CYCLE_FINISHED;
+        HP = HPinit;
     }
+    private void OnDestroy()
+    {
+        GameStateManager.instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+    
     private void FixedUpdate()
     {
-        Debug.Log(orbitMoveFSM);
         OrbitMoveWorkFlow();
     }
     private void Move(float speed)
@@ -142,11 +147,17 @@ public class Comet : MonoBehaviour
             SpawnDestroyEffect();
             Destroy(this.gameObject);
         }
+
     }
     private void SpawnDestroyEffect()
     {
         GameObject effect = Instantiate(destroyEffect);
         effect.transform.position = tr.position;
+    }
+
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Play;
     }
 }
 

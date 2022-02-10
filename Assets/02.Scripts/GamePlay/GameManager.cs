@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         Workflow();
-        Debug.Log(CometSpawner.instance.list_Comet.Count);
+        //Debug.Log(CometSpawner.instance.list_Comet.Count);
     }
     private void Workflow()
     {
@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
                 break;
             case e_GamePlayFSM.StartGame:
                 playerUI.SetActive(true);
+                GameStateManager.instance.SetState(GameState.Play);
+                NextState();
                 break;
             case e_GamePlayFSM.GameStarted:
                 MonitorGameProgress();

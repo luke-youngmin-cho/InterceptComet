@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
+    static public Player instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     // energy
     private float _energy;
     public float energy
@@ -14,23 +18,25 @@ public class Player : MonoBehaviour
             if (tmpValue > energyMax)
                 tmpValue = energyMax;
             _energy = tmpValue;
-            energySlider.value = tmpValue / energyMax;
-            int tmpIntValue = (int)tmpValue;
-            energyText.text = tmpIntValue.ToString();
+
+            if (PlayerUI.instance != null)
+            {
+                PlayerUI.instance.energySlider.value = tmpValue / energyMax;
+                int tmpIntValue = (int)tmpValue;
+                PlayerUI.instance.energyText.text = tmpIntValue.ToString();
+            }
         }
         get { return _energy; }
     }
     public float energyInit;
     public float energyMax;
     public float energyPerSec;
-    [SerializeField] Text energyText;
-    [SerializeField] Slider energySlider;
 
     // missile
-    [SerializeField] MissileLauncher missileLauncher;
-
+    [HideInInspector]public List<MissileLauncher> missileLaunchers = new List<MissileLauncher>();
     private List<GameObject> deck = new List<GameObject>();
-    private void Awake()
+    private GameObject currentMissilePrefab;
+    private void Start()
     {
         energy = energyInit;
     }
@@ -45,16 +51,27 @@ public class Player : MonoBehaviour
 
     public void ChooseMissile(GameObject missilePrefab)
     {
-        missileLauncher.missile = Instantiate(missilePrefab, missileLauncher.missilePreviewPoint);
+        currentMissilePrefab = missilePrefab;
+        RefreshMissile();
+    }
+    public void RefreshMissile()
+    {
+        foreach (MissileLauncher missileLauncher in missileLaunchers)
+        {
+            missileLauncher.missile = Instantiate(currentMissilePrefab, missileLauncher.missilePreviewPoint);
+        }
     }
     public void TryLanchMissile()
     {
-        if (missileLauncher.IsMissileEquiped() == false) return;
-        float energyRequired = missileLauncher.GetEnergyRequired();
+        if (missileLaunchers[0].IsMissileEquiped() == false) return;
+        float energyRequired = missileLaunchers[0].GetEnergyRequired();
         if (energyRequired <= energy)
         {
             energy -= energyRequired;
-            missileLauncher.LaunchMissile();
+            foreach (MissileLauncher missileLauncher in missileLaunchers)
+            {   
+                missileLauncher.LaunchMissile();
+            }
         }
         else
         {

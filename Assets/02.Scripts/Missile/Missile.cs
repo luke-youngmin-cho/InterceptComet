@@ -27,7 +27,7 @@ public class Missile : MonoBehaviour
     private float speed;
 
     [SerializeField] GameObject missileExplosionEffectWithComet;
-    private void Update()
+    private void FixedUpdate()
     {
         if(_isLaunched == true)
         {            
@@ -38,12 +38,12 @@ public class Missile : MonoBehaviour
     private void Accelerate()
     {
         if (accelElapsedTime < accelTime)
-            speed += accel * Time.deltaTime;
-        accelElapsedTime += Time.deltaTime;
+            speed += accel * Time.fixedDeltaTime;
+        accelElapsedTime += Time.fixedDeltaTime;
     }
     private void Move()
     {
-        Vector3 deltaMove = dir * speed * Time.deltaTime;
+        Vector3 deltaMove = dir * speed * Time.fixedDeltaTime;
         tr.Translate(deltaMove, Space.World);
     }
     private void OnTriggerEnter(Collider other)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MissileLauncher : MonoBehaviour
 {
+    public bool isAvailable = false;
     private GameObject _missile;
 
     public GameObject missile
@@ -22,8 +23,17 @@ public class MissileLauncher : MonoBehaviour
     }
     public Transform missilePreviewPoint;
     [SerializeField] Transform missileCreatePoint;
-    [SerializeField] Transform earth;
-    
+    private void Start()
+    {
+        Player.instance.missileLaunchers.Add(this);
+        Earth.instance.missileLaunchers.Add(this.gameObject.transform);
+        isAvailable = true;
+    }
+    private void OnDestroy()
+    {
+        Player.instance.missileLaunchers.Remove(this);
+        Earth.instance.missileLaunchers.Remove(this.gameObject.transform);
+    }
     public bool IsMissileEquiped()
     {
         return _missile != null;
@@ -39,7 +49,7 @@ public class MissileLauncher : MonoBehaviour
             GameObject tmpMissileGO = Instantiate(_missile,missileCreatePoint);
             missileCreatePoint.DetachChildren();
             Missile tmpMissile = tmpMissileGO.GetComponent<Missile>();
-            tmpMissile.dir = (transform.position - earth.position).normalized;
+            tmpMissile.dir = (transform.position - transform.parent.position).normalized;
             tmpMissile.isLaunched = true;
         }
     }
