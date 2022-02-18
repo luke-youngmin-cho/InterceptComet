@@ -29,12 +29,17 @@ public class UpgradeManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        GameStateManager.instance.OnGameStateChanged += OnGameStateChanged;
     }
     private void Start()
     {
         upgradeElements = transform.GetChild(0).GetComponents<UpgradeElement>();
     }
-    private void Update()
+    private void OnDestroy()
+    {
+        GameStateManager.instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+    private void FixedUpdate()
     {
         if ((elapsedUpgradeTime > upgradeTimeRequired) &
             (upgradeSelectorUI.activeSelf == false))
@@ -45,7 +50,7 @@ public class UpgradeManager : MonoBehaviour
             
 
         if(GameStateManager.instance.CurrentGameState == GameState.Play)
-            elapsedUpgradeTime += upgradeSpeed * Time.deltaTime;
+            elapsedUpgradeTime += upgradeSpeed * Time.fixedDeltaTime;
     }
     public void Upgrade(UpgradeElement upgradeElement)
     {
@@ -84,5 +89,9 @@ public class UpgradeManager : MonoBehaviour
                 GameStateManager.instance.SetState(GameState.Play);
             });
         }
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Play;
     }
 }

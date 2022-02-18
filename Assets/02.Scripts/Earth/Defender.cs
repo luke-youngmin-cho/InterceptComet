@@ -33,11 +33,16 @@ public class Defender : MonoBehaviour
     private void Awake()
     {
         tr = GetComponent<Transform>();
-        centorPos = Earth.instance.transform.position;        
+        centorPos = Earth.instance.transform.position;
+        GameStateManager.instance.OnGameStateChanged += OnGameStateChanged;
     }
     private void Start()
     {
         durability = durabilityInit;
+    }
+    private void OnDestroy()
+    {
+        GameStateManager.instance.OnGameStateChanged -= OnGameStateChanged;
     }
     private void Update()
     {
@@ -55,7 +60,6 @@ public class Defender : MonoBehaviour
         
         Vector3 pos = new Vector3(x, 0, z) + centorPos;
         tr.position = pos;
-
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -67,5 +71,9 @@ public class Defender : MonoBehaviour
             tmpGO.GetComponent<Comet>().HP -= _durability;
             durability -= hp * damageReduce;
         }
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Play;
     }
 }

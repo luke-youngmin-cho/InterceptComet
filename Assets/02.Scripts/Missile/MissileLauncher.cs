@@ -11,8 +11,6 @@ public class MissileLauncher : MonoBehaviour
     {
         set
         {
-            if (_missile != null)
-                Destroy(_missile);
             _missile = value;
             
         }
@@ -23,6 +21,7 @@ public class MissileLauncher : MonoBehaviour
     }
     public Transform missilePreviewPoint;
     [SerializeField] Transform missileCreatePoint;
+    private GameObject previewMissileGO;
     private void Start()
     {
         Player.instance.missileLaunchers.Add(this);
@@ -52,5 +51,15 @@ public class MissileLauncher : MonoBehaviour
             tmpMissile.dir = (transform.position - transform.parent.position).normalized;
             tmpMissile.isLaunched = true;
         }
+    }
+    public void SetPreviewMissile(GameObject previewMissile)
+    {
+        if(previewMissileGO != null)
+        {
+            Destroy(previewMissileGO);
+        }
+        previewMissileGO = Instantiate(previewMissile, missilePreviewPoint);
+        previewMissileGO.GetComponent<Collider>().enabled = false;
+        previewMissileGO.GetComponent<Missile>().enabled = false;
     }
 }

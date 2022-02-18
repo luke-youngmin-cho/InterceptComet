@@ -8,6 +8,7 @@ public class Missile : MonoBehaviour
     private void Awake()
     {
         tr = gameObject.GetComponent<Transform>();
+        GameStateManager.instance.OnGameStateChanged += OnGameStateChanged;
     }
 
     private bool _isLaunched;
@@ -19,6 +20,7 @@ public class Missile : MonoBehaviour
         }
     }
     public float damage;
+    public float splashRange;
     public float energyRequired;
     public float accel;
     public float accelTime;
@@ -27,6 +29,10 @@ public class Missile : MonoBehaviour
     private float speed;
 
     [SerializeField] GameObject missileExplosionEffectWithComet;
+    private void OnDestroy()
+    {
+        GameStateManager.instance.OnGameStateChanged -= OnGameStateChanged;
+    }
     private void FixedUpdate()
     {
         if(_isLaunched == true)
@@ -55,13 +61,32 @@ public class Missile : MonoBehaviour
             effect.transform.position = tr.position;
             
             SphereCollider sphereCollider;
-            if(other.TryGetComponent<SphereCollider>(out sphereCollider))
+            if(other.TryGetComponent(out sphereCollider))
             {
                 effect.GetComponent<MissileExplosionEffectWithComet>().SetRotationOppositeToCollision(sphereCollider);
             }
             Comet tmpComet = other.gameObject.GetComponent<Comet>();
             tmpComet.HP -= damage;
+
+            // splash
+            if(splashRange > 0)
+            {
+                Collider[] cols = Physics.OverlapSphere(tr.position, splashRange);
+                for (int i = 0; i < cols.Length; i++)
+                {
+                    if(cols[i].gameObject.layer == LayerMask.NameToLayer("Comet"))
+                    {
+                        float distance = Vector3.Distance(cols[i].transform.position, tr.position);
+                        float damageReduce = 1 - distance / splashRange;
+                        cols[i].GetComponent<Comet>().HP -= damage * damageReduce;
+                    }
+                }
+            }
         }
         Destroy(this.gameObject);
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Play;
     }
 }

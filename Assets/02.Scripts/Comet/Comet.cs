@@ -35,7 +35,7 @@ public class Comet : MonoBehaviour
     [SerializeField] float damage;
     [SerializeField] float speed;
     [SerializeField] List<OvalOrbitFor2Point> list_OvalOrbit;
-    int currentOvalOrbitIndex;
+    int currentOvalOrbitIndex=0;
 
     [SerializeField] float _startAngleDegree;
     [SerializeField] GameObject destroyEffect;
@@ -77,7 +77,7 @@ public class Comet : MonoBehaviour
     }
     private void Start()
     {
-        orbitMoveFSM = e_OrbitMoveFSM.CHECK_CYCLE_FINISHED;
+        orbitMoveFSM = e_OrbitMoveFSM.CheckOrbitIsAvailable;
         HP = HPinit;
     }
     private void OnDestroy()
@@ -91,7 +91,8 @@ public class Comet : MonoBehaviour
     }
     private void Move(float speed)
     {
-        float deltaAngle = speed * Time.fixedDeltaTime;
+        float circumference = list_OvalOrbit[currentOvalOrbitIndex].circumference;
+        float deltaAngle = (speed / circumference) * Time.fixedDeltaTime;
         currentAngle += deltaAngle;
         tr.position = list_OvalOrbit[currentOvalOrbitIndex].CalcPos(currentAngle);
         
@@ -101,19 +102,25 @@ public class Comet : MonoBehaviour
     {
         switch (orbitMoveFSM)
         {
-            case e_OrbitMoveFSM.IDLE:
+            case e_OrbitMoveFSM.Idle:
                 break;
-            case e_OrbitMoveFSM.CHECK_CYCLE_FINISHED:
+            case e_OrbitMoveFSM.CheckOrbitIsAvailable:                
+                if (list_OvalOrbit[currentOvalOrbitIndex].isAvailable == true) 
+                {
+                    orbitMoveFSM = e_OrbitMoveFSM.CheckCycleFinished;
+                }                    
+                break;
+            case e_OrbitMoveFSM.CheckCycleFinished:
                 if(accumulatedAngle >= Mathf.PI * 2)
                 {
-                    orbitMoveFSM = e_OrbitMoveFSM.SWITCH_ORBIT;
+                    orbitMoveFSM = e_OrbitMoveFSM.SwitchOrbit;
                 }
                 else
                 {
                     Move(speed);
                 }
                 break;
-            case e_OrbitMoveFSM.SWITCH_ORBIT:
+            case e_OrbitMoveFSM.SwitchOrbit:
                 currentOvalOrbitIndex++;
                 if (currentOvalOrbitIndex > list_OvalOrbit.Count - 1)
                 {
@@ -123,7 +130,7 @@ public class Comet : MonoBehaviour
                 {
                     currentAngle = startAngleRadian;
                     accumulatedAngle = 0;
-                    orbitMoveFSM = e_OrbitMoveFSM.CHECK_CYCLE_FINISHED;
+                    orbitMoveFSM = e_OrbitMoveFSM.CheckCycleFinished;
                 }
                 break;
             default:
@@ -163,7 +170,8 @@ public class Comet : MonoBehaviour
 
 enum e_OrbitMoveFSM
 {
-    IDLE,
-    CHECK_CYCLE_FINISHED,
-    SWITCH_ORBIT,
+    Idle,
+    CheckOrbitIsAvailable,
+    CheckCycleFinished,
+    SwitchOrbit,
 }

@@ -24,8 +24,11 @@ public class CometSpawner : MonoBehaviour
             {
                 GameObject tmpComet = Instantiate(info.cometPrefab, transform);
                 tmpComet.transform.position = CreateRandomPositionInCircleRange(info.radiusMin, info.radiusMax);
-                tmpComet.GetComponent<OvalOrbitFor2Point>().SetTarget(target);
-                tmpComet.GetComponent<OvalOrbitFor2Point_Sklent>().SetTarget(target);
+                OvalOrbitFor2Point[] orbits = tmpComet.GetComponents<OvalOrbitFor2Point>();
+                for (int j = 0; j < orbits.Length; j++)
+                {
+                    orbits[j].SetTarget(target);
+                }
                 list_Comet.Add(tmpComet);
             }
         }

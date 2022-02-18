@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public Earth earth;
     private void Start()
     {
+        GameStateManager.instance.SetState(GameState.Paused);
         StartGame();
     }
     private void Update()
@@ -108,16 +109,23 @@ public class GameManager : MonoBehaviour
             gamePlayFSM = e_GamePlayFSM.GameClear;
         }
     }
-
+    public void Pause()
+    {
+        GameStateManager.instance.SetState(GameState.Paused);
+    }
+    public void Play()
+    {
+        GameStateManager.instance.SetState(GameState.Play);
+    }
     public void Replay()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
         isReplay = true;
     }
-    public void BackToRobby()
+    public void BackToLobby()
     {
-        SceneManager.LoadScene("StageSelection");
+        SceneManager.LoadScene("Main");
     }
     public void NextStage()
     {

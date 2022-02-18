@@ -59,10 +59,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0243c5fd54e171744bb81d4e1b58a749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 500
+  damage: 1500
+  splashRange: 0
   energyRequired: 400
-  accel: 5
-  accelTime: 20
+  accel: 10
+  accelTime: 5
   dir: {x: 0, y: 0, z: 0}
   missileExplosionEffectWithComet: {fileID: 100000, guid: 192daf4273b89764583f576625349fbf, type: 3}
 --- !u!1 &7716518154121716087
@@ -116,7 +117,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

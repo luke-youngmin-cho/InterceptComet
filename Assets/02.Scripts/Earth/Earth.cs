@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Earth : MonoBehaviour
 {
     static public Earth instance;
+    static public float radius = 1f;
     private void Awake()
     {
         instance = this;

@@ -30,9 +30,18 @@ public class Upgrade_MultiShot : UpgradeElement
         int count = missileLaunchers.Count;
         for (int i = 0; i < count; i++)
         {
-            float zPos = (1f / (count - 1f)) * i - 0.5f;
-            Debug.Log(zPos);
-            missileLaunchers[i].localPosition = new Vector3(-1f, 0f, zPos);
+            float theta = -(1f / (count - 1f)) * Mathf.PI / 2f * i - Mathf.PI / 4f;
+            float cos = Mathf.Cos(theta);
+            float sin = Mathf.Sin(theta);
+            missileLaunchers[i].localPosition = new Vector3(Earth.radius * sin, 0f, Earth.radius * cos);
+            if(cos > 0)
+            {
+                missileLaunchers[i].localEulerAngles = new Vector3(0f, Mathf.PI / 2 - theta, 0f);
+            }
+            else if(cos < 0)
+            {
+                missileLaunchers[i].localEulerAngles = new Vector3(0f, -Mathf.PI / 2 + theta, 0f);
+            }
         }
         Player.instance.RefreshMissile();
     }

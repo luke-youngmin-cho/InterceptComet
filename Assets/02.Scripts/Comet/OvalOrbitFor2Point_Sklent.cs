@@ -18,7 +18,7 @@ public class OvalOrbitFor2Point_Sklent : OvalOrbitFor2Point
         centorPos = new Vector3((ovalElements.zPlusTransform.position.x + ovalElements.zMinusTransform.position.x - toleranceVec.x) / 2,
                                 (ovalElements.zPlusTransform.position.y + ovalElements.zMinusTransform.position.y - toleranceVec.y) / 2,
                                 (ovalElements.zPlusTransform.position.z + ovalElements.zMinusTransform.position.z - toleranceVec.z) / 2);
-
+        circumference = 2 * Mathf.PI * Mathf.Sqrt(((xLength / 2) * (xLength / 2) + (zLength / 2) * (zLength / 2)) / 2);
         float z1 = ovalElements.zPlusTransform.position.z;
         float z2 = ovalElements.zMinusTransform.position.z - toleranceVec.z;
         float x1 = ovalElements.zPlusTransform.position.x;
@@ -46,6 +46,8 @@ public class OvalOrbitFor2Point_Sklent : OvalOrbitFor2Point
         xUnit = (xPlusPos - xMinusPos).normalized;
         yUnit = (yPlusPos - yMinusPos).normalized;
         zUnit = (zPlusPos - zMinusPos).normalized;
+
+        isAvailable = true;
     }
     /*override public Vector3 CalcPos(float t)// 0 <= t <= 2pi
     {

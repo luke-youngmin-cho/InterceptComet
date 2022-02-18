@@ -55,6 +55,7 @@ public class OvalOrbitFor2Point : MonoBehaviour
                 return true;
         }
     }
+    [HideInInspector] public bool isAvailable;
     [HideInInspector] public Vector3 centorPos;
     [HideInInspector] public Vector3 xUnit;
     [HideInInspector] public Vector3 yUnit;
@@ -68,6 +69,7 @@ public class OvalOrbitFor2Point : MonoBehaviour
     [HideInInspector] public Vector3 yMinusPos;
     [HideInInspector] public Vector3 zPlusPos;
     [HideInInspector] public Vector3 zMinusPos;
+    [HideInInspector] public float circumference;
     private void Awake()
     {
         if(ovalElements.zMinusTransform != null)
@@ -90,6 +92,7 @@ public class OvalOrbitFor2Point : MonoBehaviour
                                 (ovalElements.zPlusTransform.position.y + ovalElements.zMinusTransform.position.y) / 2,
                                 (ovalElements.zPlusTransform.position.z + ovalElements.zMinusTransform.position.z) / 2);
 
+        circumference = 2 * Mathf.PI * Mathf.Sqrt(((xLength / 2) * (xLength / 2) + (zLength / 2) * (zLength / 2)) / 2);
         float z1 = ovalElements.zPlusTransform.position.z;
         float z2 = ovalElements.zMinusTransform.position.z;
         float x1 = ovalElements.zPlusTransform.position.x;
@@ -117,6 +120,8 @@ public class OvalOrbitFor2Point : MonoBehaviour
         xUnit = (xPlusPos - xMinusPos).normalized;
         yUnit = (yPlusPos - yMinusPos).normalized;
         zUnit = (zPlusPos - zMinusPos).normalized;
+
+        isAvailable = true;
     }
     
     virtual public Vector3 CalcPos(float t)// 0 <= t <= 2pi
@@ -126,6 +131,7 @@ public class OvalOrbitFor2Point : MonoBehaviour
             Destroy(this.gameObject);
             return Vector3.zero;
         }
+
         float xRel = Mathf.Sin(pi) * Mathf.Cos(t) * xLength / 2;
         float yRel = Mathf.Cos(pi) * yLength / 2;
         float zRel = Mathf.Sin(pi) * Mathf.Sin(t) * zLength / 2;
