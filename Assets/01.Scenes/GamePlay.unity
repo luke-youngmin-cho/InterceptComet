@@ -1230,7 +1230,7 @@ MonoBehaviour:
   playerUI: {fileID: 883628598}
   introduceCometUI: {fileID: 132900731}
   gameClearUI: {fileID: 0}
-  gameOverUI: {fileID: 0}
+  gameOverUI: {fileID: 566022822}
   earth: {fileID: 1591542254}
 --- !u!4 &254190418
 Transform:
@@ -3000,8 +3000,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 988073940}
   - {fileID: 2032576747}
+  - {fileID: 988073940}
   m_Father: {fileID: 1450819803}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3843,7 +3843,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 777836139}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4325,8 +4325,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyInit: 200
-  energyMax: 1400
-  energyPerSec: 100
+  energyMax: 3000
+  energyPerSec: 300
   missileLaunchers: []
 --- !u!4 &1063686979
 Transform:
@@ -8327,11 +8327,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 777836139}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
+  m_AnchoredPosition: {x: 25, y: -25}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2032576748
@@ -8354,7 +8354,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 1182605a67e89c34996a4dff4126aa0c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
